@@ -8,31 +8,21 @@ Created on Tue Dec 26 19:21:23 2017
 import scipy.io as io
 import sys
 import wfdb
+import numpy as np
+import scipy.signal as sg
 
 
 def read_header(fname):
-	"""
-	Funcion que lee el header y devuelve un diccionario con toda la informacion
-	sobre ese registro
-
-	Input
-	------
-	 fname
-	Output
-	------
-	diccinario con toda la información del registroguel-
-	"""
-	features = {}
-	#MA pon tu codigo aqui
-	#file = "A00001"
-	file = sys.argv[1]
-	sig, fields = wfdb.srdsamp(file, sampfrom=800)
-	features["signal"] = sig
-	features["fields"] = fields
-	#print(sig)
-	#print(fields)
-
-	return features
+    """
+    Funcion para leer el header de las señales
+    """
+    
+    idx_point = fname.find('.')
+    fname = fname[:idx_point]
+    header = wfdb.rdheader(fname)
+    
+    return header
+ 
 
 #Función para leer las señales
 
@@ -63,14 +53,29 @@ def read_challenge_mat_files(fname):
 
     #mat_file is a dictionary, and the data is on the 'var' key
 
-    ecg = mat_file['val']
+    ecg = mat_file['val'].flatten()
 
    #check info in header
     #for item in header:
         #print item, ":", header[item]
 
-    return ecg.T,header
+    return ecg,header.__dict__
 
+def processing_ecg(ecg,fs = 300):
+    """
+    Function to filter ecg. We are going to make a simple filter between 
+    
+    """
+    
+    order = int(0.3*fs)
+    fnyq = fs/2.
+    fc = [2/fnyq,45/fnyq] #frecuencias de corte 2Hz y 45Hz 
+    
+    
+    a,b =np.array([1]), sg.firwin(order,fc,pass_zero = False) 
+    ecg_filtered = sg.filtfilt(b, a, ecg)
+    
+    return ecg_filtered
 
 #to modify
 """
@@ -95,6 +100,6 @@ def deep_conv_lstm_net():
     model.compile(loss='categorical_crossentropy',optimizer =Adam(lr=0.001), metrics = ['accuracy'])
 """
 
-if __name__ == "__main__":
+#if __name__ == "__main__":
 
-    read_challenge_mat_files(sys.argv[1])
+#    read_challenge_mat_files(sys.argv[1])
