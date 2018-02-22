@@ -191,4 +191,4 @@ def deep_conv_lstm_net():
 
 #    read_challenge_mat_files(sys.argv[1])
 
-#plot_all_records(plot_original=False)
+plot_all_records(plot_original=False)
