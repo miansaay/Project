@@ -10,9 +10,10 @@ import scipy.io as io
 import sys
 import wfdb
 import biosppy.signals as sg
+import numpy as np
 
 
 mat_file = io.loadmat('A00001.mat')
 ecg_file = np.array(mat_file['val']).flatten()
 
-a = sg.ecg.ecg(np.array(ecg_file))
+a = sg.ecg.ecg(np.array(ecg_file).ravel(),sampling_rate = 250)
