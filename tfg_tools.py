@@ -174,11 +174,33 @@ def get_distribution_length():
     plt.show()
     
     return length_ecg
+
+def get_distribution_less9000():
+    """
+    Function to get distribution by classes for signals with less than 9000
+    """
+    
+    path = './physionet_challenge/training2017/'
+    
+    list_classes = []
+    thesaurus = {'N':'Normal','A':'AF','O':'Other Rhyth','~':'Noisy'}
+    
+    for fname in list(glob.glob(path+'*.mat')):
+        ecg,header = read_challenge_mat_files(os.path.basename(fname),path)
+        if header['siglen'] < 9000:
+            class_ecg = get_class(header)
+            list_classes.append(thesaurus[class_ecg])
+
+    class_keys, counts = np.unique(list_classes, return_counts=True)
+    classes_less9000 = dict(zip(class_keys, counts))       
+    return classes_less9000
+    
       
-#if __name__ == "__main__":
+if __name__ == "__main__":
     
     #get_distribution_classes()
     #get_distribution_length()
+    get_distribution_less9000()
     
 #to modify
 """
