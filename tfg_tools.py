@@ -6,7 +6,6 @@ Created on Tue Dec 26 19:21:23 2017
 @author: obarquero
 """
 import scipy.io as io
-import sys
 import wfdb
 import numpy as np
 import scipy.signal as sg
@@ -45,8 +44,7 @@ def read_challenge_mat_files(fname,path):
 
     #get only the id, remove the extension file
     #fname_header = fname
-
-    #
+    
     #header = read_header(fname_header)
 
     #read mat file
@@ -57,10 +55,6 @@ def read_challenge_mat_files(fname,path):
     #mat_file is a dictionary, and the data is on the 'var' key
 
     ecg = mat_file['val'].flatten()
-
-   #check info in header
-    #for item in header:
-        #print item, ":", header[item]
 
     return ecg,header.__dict__
 
@@ -84,8 +78,6 @@ def get_class(header):
     """
     Function that given a header from a record return the class it belongs
     """
-    
-    
     
     classes = np.loadtxt('./physionet_challenge/training2017/REFERENCE.csv',delimiter = ',',dtype = 'str')
     
@@ -139,9 +131,10 @@ def plot_all_records(plot_original = True):
         plt.title(tit)
         plt.ylabel('Amplitude (mV)')
         plt.axis('tight')
-
-        plt.waitforbuttonpress()
-            
+        
+        
+        #plt.waitforbuttonpress() 
+                    
         
 def get_distribution_classes():
     """
@@ -152,6 +145,13 @@ def get_distribution_classes():
     
     #leer references.csv y recontar el número de cada clase
     
+    classes = np.loadtxt('./physionet_challenge/training2017/REFERENCE.csv',delimiter = ',',dtype = 'str')
+    classes = list(classes[:,1])
+    class_keys, counts = np.unique(classes, return_counts=True)
+    count_classes = dict(zip(class_keys, counts))
+    
+    return count_classes
+  
 def get_distribution_length():
     """
     Function to get a distribution of the signal lengths
@@ -160,10 +160,26 @@ def get_distribution_length():
     #MA tu código aquí
     
     #hacer un for sobre todos los datos, obtener la longitud de cada señal y guardarla en una lista
+    path = './physionet_challenge/training2017/'
     
+    length_ecg = []
     
+    for fname in list(glob.glob(path+'*.mat')):
+        ecg,header = read_challenge_mat_files(os.path.basename(fname),path)
+        length_ecg.append(header['siglen'])
     
-
+    plt.hist(length_ecg, 10)
+    plt.xlabel('ECGs lengths')
+    plt.grid(True)
+    plt.show()
+    
+    return length_ecg
+      
+#if __name__ == "__main__":
+    
+    #get_distribution_classes()
+    #get_distribution_length()
+    
 #to modify
 """
 def deep_conv_lstm_net():
