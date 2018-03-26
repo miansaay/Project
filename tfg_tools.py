@@ -13,6 +13,7 @@ import os
 import glob
 import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn.model_selection import StratifiedShuffleSplit
 
 def read_header(fname,path):
     """
@@ -195,12 +196,47 @@ def get_distribution_less9000():
     classes_less9000 = dict(zip(class_keys, counts))       
     return classes_less9000
     
+
+def filter_data():
+    
+    ecgs = []
+    tags = []
+    path = './physionet_challenge/training2017/'
+    thesaurus = {'N':'Normal','A':'AF','O':'Other Rhyth','~':'Noisy'}
+    
+    for fname in list(glob.glob(path+'*.mat')):
+        ecg,header = read_challenge_mat_files(os.path.basename(fname),path)
+        if header['siglen'] == 9000:
+            ecgs.append(ecg)
+            class_ecg = get_class(header)
+            tags.append(thesaurus[class_ecg])
+        
+   
+    data_ecgs = np.asarray(ecgs)
+    data_tags = np.asarray(tags)
+    #print data_ecgs
+    #print data_tags
+    #print data_tags.shape
+    #print data_ecgs.shape
+    return data_ecgs, data_tags
+
+def divide_data():
+    np.set_printoptions(threshold='nan')
+    ecgs,tags = filter_data()
+    skf = StratifiedShuffleSplit(n_splits = 1,test_size = 0.20)
+    
+    for train, test in skf.split(ecgs,tags):
+        print("%s\n  %s\n" % (train,test))
+        
+     
       
-if __name__ == "__main__":
+#if __name__ == "__main__":
     
     #get_distribution_classes()
     #get_distribution_length()
-    get_distribution_less9000()
+    #get_distribution_less9000()
+    #filter_data()
+    #divide_data()
     
 #to modify
 """
