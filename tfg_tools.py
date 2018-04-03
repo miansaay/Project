@@ -226,7 +226,7 @@ def divide_data():
     skf = StratifiedShuffleSplit(n_splits = 1,test_size = 0.20)
     
     for train, test in skf.split(ecgs,tags):
-        print("%s\n  %s\n" % (train,test))
+        print("%s\n  \n%s\n" % (train,test))
         
      
       
