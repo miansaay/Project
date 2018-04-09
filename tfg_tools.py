@@ -211,13 +211,9 @@ def filter_data():
             class_ecg = get_class(header)
             tags.append(thesaurus[class_ecg])
         
-   
     data_ecgs = np.asarray(ecgs)
     data_tags = np.asarray(tags)
-    #print data_ecgs
-    #print data_tags
-    #print data_tags.shape
-    #print data_ecgs.shape
+   
     return data_ecgs, data_tags
 
 def divide_data():
