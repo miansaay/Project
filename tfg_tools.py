@@ -14,6 +14,8 @@ import glob
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import StratifiedShuffleSplit
+from imblearn.over_sampling import SMOTE
+
 
 def read_header(fname,path):
     """
@@ -223,8 +225,17 @@ def divide_data():
     
     for train, test in skf.split(ecgs,tags):
         print("%s\n  \n%s\n" % (train,test))
-        
-     
+
+def balanced_data():
+
+    X,y = filter_data()  
+    #X_res, y_res = SMOTE(kind='svm').fit_sample(X, y)
+    X_res, y_res = SMOTE().fit_sample(X, y)
+    y_resampled, counts = np.unique(y_res, return_counts=True)
+    y_count = dict(zip(y_resampled, counts))
+    print y_count
+    
+    
       
 #if __name__ == "__main__":
     
@@ -233,6 +244,7 @@ def divide_data():
     #get_distribution_less9000()
     #filter_data()
     #divide_data()
+    #balanced_data()
     
 #to modify
 """
@@ -256,9 +268,5 @@ def deep_conv_lstm_net():
     model.add(Lambda(lambda x: x[:,-1,:], output_shape[output_dim]))
     model.compile(loss='categorical_crossentropy',optimizer =Adam(lr=0.001), metrics = ['accuracy'])
 """
-
-#if __name__ == "__main__":
-
-#    read_challenge_mat_files(sys.argv[1])
 
 #plot_all_records(plot_original=False)
