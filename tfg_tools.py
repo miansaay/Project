@@ -135,31 +135,34 @@ def plot_all_records(plot_original = True):
         plt.ylabel('Amplitude (mV)')
         plt.axis('tight')
         
-        
         #plt.waitforbuttonpress() 
                     
-        
+def count(sequence):
+    
+    keys, counts = np.unique(sequence, return_counts=True)
+    counts = dict(zip(keys, counts))
+    
+    return counts
+    
+    
 def get_distribution_classes():
     """
     Function to get the distribution of differente clases
     """
-    
     #MA tu código aquí
     
     #leer references.csv y recontar el número de cada clase
     
     classes = np.loadtxt('./physionet_challenge/training2017/REFERENCE.csv',delimiter = ',',dtype = 'str')
     classes = list(classes[:,1])
-    class_keys, counts = np.unique(classes, return_counts=True)
-    count_classes = dict(zip(class_keys, counts))
-    
+    count_classes = count(classes)
+   
     return count_classes
   
 def get_distribution_length():
     """
     Function to get a distribution of the signal lengths
     """
-    
     #MA tu código aquí
     
     #hacer un for sobre todos los datos, obtener la longitud de cada señal y guardarla en una lista
@@ -194,8 +197,8 @@ def get_distribution_less9000():
             class_ecg = get_class(header)
             list_classes.append(thesaurus[class_ecg])
 
-    class_keys, counts = np.unique(list_classes, return_counts=True)
-    classes_less9000 = dict(zip(class_keys, counts))       
+    classes_less9000 = count(list_classes)
+   
     return classes_less9000
     
 
@@ -218,34 +221,34 @@ def filter_data():
    
     return data_ecgs, data_tags
 
-def divide_data():
-    np.set_printoptions(threshold='nan')
-    ecgs,tags = filter_data()
-    skf = StratifiedShuffleSplit(n_splits = 1,test_size = 0.20)
+#def divide_data():
     
-    for train, test in skf.split(ecgs,tags):
-        print("%s\n  \n%s\n" % (train,test))
+    #np.set_printoptions(threshold='nan')
+    #ecgs,tags = filter_data()
+    #skf = StratifiedShuffleSplit(n_splits = 1,test_size = 0.20)
+    
+    #return skf,ecgs,tags
+    #for train, test in skf.split(ecgs,tags):
+        #print("%s\n  \n%s\n" % (train,test))
 
-def balanced_data():
+#def balanced_data():
 
-    X,y = filter_data()  
+    #X,y = filter_data()  
     #X_res, y_res = SMOTE(kind='svm').fit_sample(X, y)
-    X_res, y_res = SMOTE().fit_sample(X, y)
-    y_resampled, counts = np.unique(y_res, return_counts=True)
-    y_count = dict(zip(y_resampled, counts))
-    print y_count
+    #X_res, y_res = SMOTE().fit_sample(X, y)
+    #y_count = count(y_res)
+   
+    #return y_count
     
     
       
 #if __name__ == "__main__":
     
-    #get_distribution_classes()
-    #get_distribution_length()
-    #get_distribution_less9000()
-    #filter_data()
-    #divide_data()
-    #balanced_data()
+    #print get_distribution_classes()
+    #print get_distribution_length()
+    #print get_distribution_less9000()
     
+   
 #to modify
 """
 def deep_conv_lstm_net():
