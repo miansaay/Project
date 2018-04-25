@@ -212,10 +212,10 @@ def filter_data():
     for fname in list(glob.glob(path+'*.mat')):
         ecg,header = read_challenge_mat_files(os.path.basename(fname),path)
         if header['siglen'] == 9000:
-            ecgs.append(ecg)
             class_ecg = get_class(header)
             tags.append(thesaurus[class_ecg])
-        
+            ecgs.append(ecg)
+           
     data_ecgs = np.asarray(ecgs)
     data_tags = np.asarray(tags)
    
@@ -247,6 +247,9 @@ def filter_data():
     #print get_distribution_classes()
     #print get_distribution_length()
     #print get_distribution_less9000()
+    #ecgs, tags = filter_data()
+    #print ecgs
+    #print tags
     
    
 #to modify
