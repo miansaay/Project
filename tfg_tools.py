@@ -221,37 +221,38 @@ def filter_data():
    
     return data_ecgs, data_tags
 
-#def divide_data():
+"""
+def divide_data():
     
-    #np.set_printoptions(threshold='nan')
-    #ecgs,tags = filter_data()
-    #skf = StratifiedShuffleSplit(n_splits = 1,test_size = 0.20)
+    np.set_printoptions(threshold='nan')
+    ecgs,tags = filter_data()
+    skf = StratifiedShuffleSplit(n_splits = 1,test_size = 0.20)
     
-    #return skf,ecgs,tags
-    #for train, test in skf.split(ecgs,tags):
-        #print("%s\n  \n%s\n" % (train,test))
+    return skf,ecgs,tags
+    for train, test in skf.split(ecgs,tags):
+        print("%s\n  \n%s\n" % (train,test))
 
-#def balanced_data():
+def balanced_data():
 
-    #X,y = filter_data()  
-    #X_res, y_res = SMOTE(kind='svm').fit_sample(X, y)
-    #X_res, y_res = SMOTE().fit_sample(X, y)
-    #y_count = count(y_res)
+    X,y = filter_data()  
+    X_res, y_res = SMOTE(kind='svm').fit_sample(X, y)
+    X_res, y_res = SMOTE().fit_sample(X, y)
+    y_count = count(y_res)
    
-    #return y_count
+    return y_count
+"""   
     
+"""      
+if __name__ == "__main__":
     
-      
-#if __name__ == "__main__":
-    
-    #print get_distribution_classes()
-    #print get_distribution_length()
-    #print get_distribution_less9000()
-    #ecgs, tags = filter_data()
-    #print ecgs
-    #print tags
-    
-   
+    print get_distribution_classes()
+    print get_distribution_length()
+    print get_distribution_less9000()
+    ecgs, tags = filter_data()
+    print ecgs
+    print tags
+"""
+     
 #to modify
 """
 def deep_conv_lstm_net():
