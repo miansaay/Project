@@ -173,6 +173,7 @@ def get_distribution_length():
     for fname in list(glob.glob(path+'*.mat')):
         ecg,header = read_challenge_mat_files(os.path.basename(fname),path)
         length_ecg.append(header['siglen'])
+        #length_ecg.append(len(ecg))
     
     plt.hist(length_ecg, 10)
     plt.xlabel('ECGs lengths')
@@ -209,8 +210,13 @@ def filter_data():
     path = './physionet_challenge/training2017/'
     thesaurus = {'N':'Normal','A':'AF','O':'Other Rhyth','~':'Noisy'}
     
+    c = 0
+    l = len(list(glob.glob(path+'*.mat')))
+    
     for fname in list(glob.glob(path+'*.mat')):
+        print(c,'/',l)
         ecg,header = read_challenge_mat_files(os.path.basename(fname),path)
+        c += 1
         if header['siglen'] == 9000:
             class_ecg = get_class(header)
             tags.append(thesaurus[class_ecg])
