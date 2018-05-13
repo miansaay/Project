@@ -15,6 +15,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.model_selection import StratifiedShuffleSplit
 from imblearn.over_sampling import SMOTE
+import itertools
 
 
 def read_header(fname,path):
@@ -226,6 +227,54 @@ def filter_data():
     data_tags = np.asarray(tags)
    
     return data_ecgs, data_tags
+
+def codify_y(y):
+    """
+    Función para crear un vector de y que sea un codigo numerico
+    """
+    thesaurus = {'Normal':0,'AF':1,'Other Rhyth':2,'Noisy':3}
+    
+    y_new = []
+    
+    for y_el in y:
+        y_new.append(thesaurus[y_el])
+        
+    return np.array(y_new)
+
+def plot_confusion_matrix(cm, classes,
+                          normalize=False,
+                          title='Confusion matrix',
+                          cmap=plt.cm.Blues):
+    """
+    This function prints and plots the confusion matrix.
+    Normalization can be applied by setting `normalize=True`.
+    """
+    if normalize:
+        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+        print("Normalized confusion matrix")
+    else:
+        print('Confusion matrix, without normalization')
+
+    print(cm)
+
+    plt.imshow(cm, interpolation='nearest', cmap=cmap)
+    plt.title(title)
+    plt.colorbar()
+    tick_marks = np.arange(len(classes))
+    plt.xticks(tick_marks, classes, rotation=45)
+    plt.yticks(tick_marks, classes)
+
+    fmt = '.2f' if normalize else 'd'
+    thresh = cm.max() / 2.
+    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+        plt.text(j, i, format(cm[i, j], fmt),
+                 horizontalalignment="center",
+                 color="white" if cm[i, j] > thresh else "black")
+
+    plt.tight_layout()
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
+
 
 """
 def divide_data():
