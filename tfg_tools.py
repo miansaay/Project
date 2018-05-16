@@ -215,7 +215,7 @@ def filter_data():
     l = len(list(glob.glob(path+'*.mat')))
     
     for fname in list(glob.glob(path+'*.mat')):
-        print(c,'/',l)
+       # print(c,'/',l)
         ecg,header = read_challenge_mat_files(os.path.basename(fname),path)
         c += 1
         if header['siglen'] == 9000:
@@ -297,15 +297,16 @@ def balanced_data():
     return y_count
 """   
     
-"""      
+"""     
 if __name__ == "__main__":
     
     print get_distribution_classes()
     print get_distribution_length()
     print get_distribution_less9000()
-    ecgs, tags = filter_data()
-    print ecgs
-    print tags
+    X, y = filter_data()
+    print X
+    print y
+    print codify_y(y)
 """
      
 #to modify
