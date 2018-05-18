@@ -178,6 +178,7 @@ def get_distribution_length():
     
     plt.hist(length_ecg, 10)
     plt.xlabel('ECGs lengths')
+    plt.ylabel('Amount of data')
     plt.grid(True)
     plt.show()
     
