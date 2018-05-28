@@ -177,6 +177,7 @@ def get_distribution_length():
         #length_ecg.append(len(ecg))
     
     plt.hist(length_ecg, 10)
+    plt.title('Histogram of the different signal lengths')
     plt.xlabel('ECGs lengths')
     plt.ylabel('Amount of data')
     plt.grid(True)
@@ -298,7 +299,7 @@ def balanced_data():
     return y_count
 """   
     
-"""     
+"""   
 if __name__ == "__main__":
     
     print get_distribution_classes()
