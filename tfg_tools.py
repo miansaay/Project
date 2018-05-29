@@ -217,7 +217,7 @@ def filter_data():
     l = len(list(glob.glob(path+'*.mat')))
     
     for fname in list(glob.glob(path+'*.mat')):
-       # print(c,'/',l)
+        print(c,'/',l)
         ecg,header = read_challenge_mat_files(os.path.basename(fname),path)
         c += 1
         if header['siglen'] == 9000:
