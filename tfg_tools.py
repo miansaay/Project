@@ -224,11 +224,31 @@ def filter_data():
             class_ecg = get_class(header)
             tags.append(thesaurus[class_ecg])
             ecgs.append(ecg)
-           
+         
     data_ecgs = np.asarray(ecgs)
     data_tags = np.asarray(tags)
-   
+    
     return data_ecgs, data_tags
+
+def get_distribution_more9000():
+    """
+    Function to get distribution by classes for signals with more than 9000
+    """
+    
+    path = './physionet_challenge/training2017/'
+    
+    list_classes = []
+    thesaurus = {'N':'Normal','A':'AF','O':'Other Rhyth','~':'Noisy'}
+    
+    for fname in list(glob.glob(path+'*.mat')):
+        ecg,header = read_challenge_mat_files(os.path.basename(fname),path)
+        if header['siglen'] > 9000:
+            class_ecg = get_class(header)
+            list_classes.append(thesaurus[class_ecg])
+
+    classes_more9000 = count(list_classes)
+   
+    return classes_more9000
 
 def codify_y(y):
     """
@@ -299,16 +319,20 @@ def balanced_data():
     return y_count
 """   
     
-"""   
+"""
 if __name__ == "__main__":
     
+    print get_distribution_more9000()
+    X, y = filter_data()
+    print len(X)
+    print len(y)
+    print X.shape
+    print y.shape
+    print codify_y(y)
     print get_distribution_classes()
     print get_distribution_length()
     print get_distribution_less9000()
-    X, y = filter_data()
-    print X
-    print y
-    print codify_y(y)
+    
 """
      
 #to modify
