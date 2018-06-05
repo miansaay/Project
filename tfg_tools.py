@@ -148,11 +148,8 @@ def count(sequence):
     
 def get_distribution_classes():
     """
-    Function to get the distribution of differente clases
+    Function to read references.csv and count the number of each class
     """
-    #MA tu código aquí
-    
-    #leer references.csv y recontar el número de cada clase
     
     classes = np.loadtxt('./physionet_challenge/training2017/REFERENCE.csv',delimiter = ',',dtype = 'str')
     classes = list(classes[:,1])
@@ -164,9 +161,7 @@ def get_distribution_length():
     """
     Function to get a distribution of the signal lengths
     """
-    #MA tu código aquí
-    
-    #hacer un for sobre todos los datos, obtener la longitud de cada señal y guardarla en una lista
+   
     path = './physionet_challenge/training2017/'
     
     length_ecg = []
