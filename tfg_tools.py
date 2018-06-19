@@ -3,7 +3,8 @@
 """
 Created on Tue Dec 26 19:21:23 2017
 
-@author: obarquero
+@author: miansaay
+@co-author: obarquero
 """
 import scipy.io as io
 import wfdb
@@ -53,6 +54,7 @@ def read_challenge_mat_files(fname,path):
 
     #read mat file
     header = read_header(fname,path)
+    
 
     mat_file = io.loadmat(path+fname)
 
@@ -113,6 +115,7 @@ def plot_all_records(plot_original = True):
         
         #read ecg
         ecg,header = read_challenge_mat_files(os.path.basename(fname),path)
+        
         
         #function to get the the class
         class_ecg = get_class(header)
