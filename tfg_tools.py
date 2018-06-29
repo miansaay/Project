@@ -14,8 +14,6 @@ import os
 import glob
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.model_selection import StratifiedShuffleSplit
-from imblearn.over_sampling import SMOTE
 import itertools
 
 
@@ -148,7 +146,7 @@ def count(sequence):
     
     return counts
     
-    
+
 def get_distribution_classes():
     """
     Function to read references.csv and count the number of each class
@@ -159,6 +157,8 @@ def get_distribution_classes():
     count_classes = count(classes)
    
     return count_classes
+
+
   
 def get_distribution_length():
     """
@@ -295,31 +295,10 @@ def plot_confusion_matrix(cm, classes,
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
 
-
-"""
-def divide_data():
-    
-    np.set_printoptions(threshold='nan')
-    ecgs,tags = filter_data()
-    skf = StratifiedShuffleSplit(n_splits = 1,test_size = 0.20)
-    
-    return skf,ecgs,tags
-    for train, test in skf.split(ecgs,tags):
-        print("%s\n  \n%s\n" % (train,test))
-
-def balanced_data():
-
-    X,y = filter_data()  
-    X_res, y_res = SMOTE(kind='svm').fit_sample(X, y)
-    X_res, y_res = SMOTE().fit_sample(X, y)
-    y_count = count(y_res)
-   
-    return y_count
-"""   
-    
+ 
 """
 if __name__ == "__main__":
-    
+
     print get_distribution_more9000()
     X, y = filter_data()
     print len(X)
